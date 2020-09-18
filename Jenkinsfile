@@ -37,7 +37,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'echo Deploying to Kubernetes cluster...'
-                input 'Deploy to Production?'
                 milestone(1)
                 kubernetesDeploy(
                     kubeconfigId: 'kubeconfig_id',
