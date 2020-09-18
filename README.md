@@ -4,7 +4,7 @@
 The goal of this capstone project was to implement a Continous Integration/Continuous Deployment(CI/CD) pipeline using Jenkins.
 To achieve this goal, I used GitHub as my souce code repository where I had a simple Nodejs web app.
 
-So using Jenkins build automation webserver, the web app code was checked out from GitHub. The code was built, tested and dockerized. The build code was then pushed to a remote registry - Docker Hub. Also it was pushed to production on a two-node Kubernetes cluster running on AWS EC2 instance. 
+So using Jenkins build automation server, the web app code was checked out from GitHub. The code was built, tested and dockerized. The build code was then pushed to a remote registry - Docker Hub. Also it was pushed to production on a two-node Kubernetes cluster running on AWS EC2 instance. 
 
 
 
