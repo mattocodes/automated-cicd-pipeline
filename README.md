@@ -11,8 +11,8 @@ So using Jenkins build automation server, the web app code was checked out from 
 ## Initial Setup
 
 * Jenkins Server Setup
-    Using AWS EC2 instance, I installed Jenkins and all required plugins.
+    - Using AWS EC2 instance, I installed Jenkins and all required plugins.
 
 * Kubernetes Server Setup
-    Also, using EC2 instances, I had setup a two-node Kubernetes cluster - one master node and one worker node. 
+    - Also, using EC2 instances, I had setup a two-node Kubernetes cluster - one master node and one worker node. 
 
