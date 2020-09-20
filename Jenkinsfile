@@ -5,7 +5,7 @@ pipeline {
             steps {
                 //checkout code
                 echo 'Checking out code...'
-                //git branch: 'practice', url: 'https://github.com/mattocodes/capstone-jenkins-cicd'
+                git branch: 'practice', url: 'https://github.com/mattocodes/capstone-jenkins-cicd'
             }
         }
     }
