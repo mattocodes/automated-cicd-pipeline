@@ -14,7 +14,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 
-                sh 'docker build -t . mattocodes/gameapp:{BUILD_NUMBER}
+                sh 'docker build -t . mattocodes/gameapp:${BUILD_NUMBER}
                 
                 sh 'echo Current value of tag: ${TAG}'
             }
