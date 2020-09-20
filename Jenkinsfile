@@ -5,11 +5,12 @@ pipeline {
         TAG =''
     }
     stages {
-        stage('Code Checkout from GitHub') {
-            steps {
+        //stage('Code Checkout from GitHub') {
+            //steps {
                 //This step is performed by Jenkins
-            }
-        }
+            //}
+        //}
+        
         stage('Environment Variable') {
             steps {
                 echo 'Initial value of tag: ${TAG}'
