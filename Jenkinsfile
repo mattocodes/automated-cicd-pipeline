@@ -16,7 +16,7 @@ pipeline {
                 
                 sh 'docker build -t . mattocodes/gameapp:{BUILD_NUMBER}
                 
-                  sh 'echo Current value of tag: ${TAG}'
+                sh 'echo Current value of tag: ${TAG}'
             }
         }
     }
