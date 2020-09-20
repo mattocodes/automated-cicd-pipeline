@@ -5,17 +5,18 @@ pipeline {
         TAG ='${BUILD_NUMBER}'
     }
     stages {
-        //stage('Code Checkout from GitHub') {
-            //steps {
-                //This step is performed by Jenkins
-            //}
-        //}
-        
-        stage('Environment Variable') {
+        /*stage('Code Checkout from GitHub') {
             steps {
-                //echo 'Initial value of tag: TAG'
-                //sh 'TAG = ${env.BUILD_NUMBER}'
-                sh 'echo Current value of tag: ${TAG}'
+                //This step is performed by Jenkins
+            }
+         }
+        */
+        stage('Build Image') {
+            steps {
+                
+                sh 'docker build -t . mattocodes/gameapp:{BUILD_NUMBER}
+                
+                  sh 'echo Current value of tag: ${TAG}'
             }
         }
     }
