@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TAG =''
+        TAG ='${env.BUILD_NUMBER}'
     }
     stages {
         //stage('Code Checkout from GitHub') {
