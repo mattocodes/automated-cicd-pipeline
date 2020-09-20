@@ -15,7 +15,7 @@ pipeline {
             steps {
                 //echo 'Initial value of tag: TAG'
                 //sh 'TAG = ${env.BUILD_NUMBER}'
-                echo 'Current value of tag: ${TAG}'
+                sh 'echo Current value of tag: ${TAG}'
             }
         }
     }
