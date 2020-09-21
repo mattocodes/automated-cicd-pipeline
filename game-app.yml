@@ -21,7 +21,7 @@ metadata:
   labels:
     app: game-app
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: game-app
