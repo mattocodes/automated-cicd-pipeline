@@ -30,7 +30,7 @@ pipeline {
                     sh "docker login -u mattocodes -p ${dockerhub_pwd}"
                     sh "docker push mattocodes/testapp:${BUILD_NUMBER}"
                     sh "docker tag mattocodes/testapp:${BUILD_NUMBER} mattocodes/testapp:latest"
-                    sh "docker push latest"
+                    sh "docker push mattocodes/testapp:latest"
                 }
             }
         }
