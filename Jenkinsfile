@@ -23,6 +23,16 @@ pipeline {
                 sh "docker build . -t mattocodes/testapp:${BUILD_NUMBER}"
             }
         }
+        stage('Push Build to DockerHub') {
+            steps {
+                echo "Pushing build to DockerHub..."
+                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_pwd')]) {
+                    sh "docker login -u mattocodes -p ${dockerhub_pwd}"
+                    sh "docker push mattocodes/testapp:${BUILD_NUMBER}
+                    sh "docker push latest"
+                }
+            }
+        }
         
     }
 }
