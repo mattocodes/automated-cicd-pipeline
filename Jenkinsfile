@@ -1,23 +1,30 @@
 pipeline {
     agent any
 
-    environment {
-        TAG ='${BUILD_NUMBER}'
-    }
     stages {
-        /*stage('Code Checkout from GitHub') {
+        /*
+        stage('Code Checkout') {
             steps {
                 //This step is performed by Jenkins
             }
          }
         */
-        stage('Build Image') {
+        
+        stage('Test Code') {
             steps {
-                
-                sh 'docker build . -t mattocodes/gameapp:${BUILD_NUMBER}'
-                
-                sh 'echo Current value of tag: ${TAG}'
+                echo "Testing code..."
+                sh "tidy -q -e *.html"
             }
         }
+        
+        /*
+        stage('Build Code') {
+            steps {
+                
+                sh "docker build . -t mattocodes/testapp:${BUILD_NUMBER}"
+                
+            }
+        }
+        */
     }
 }
