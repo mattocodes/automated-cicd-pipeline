@@ -39,7 +39,13 @@ pipeline {
                 sshagent(['kubemasternode_id']) {
                     echo "Copying game-app file"
                     sh "scp -o StrictHostKeyChecking=no game-app.yml ubuntu@3.215.23.226:/home/ubuntu/"
-                    sh "ssh ubuntu@3.215.23.226 docker pull mattocodes/testapp:latest"
+                    script {
+                        try {
+                            sh "ssh ubuntu@3.215.23.226 kubectl apply -f ."
+                        }catch(error) {
+                            sh "ssh ubuntu@3.215.23.226 kubectl create -f ."
+                        }
+                    }
                     
                 }
             }
