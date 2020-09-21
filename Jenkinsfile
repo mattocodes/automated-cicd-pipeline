@@ -17,14 +17,12 @@ pipeline {
             }
         }
         
-        /*
         stage('Build Code') {
             steps {
-                
+                echo "Building code..."
                 sh "docker build . -t mattocodes/testapp:${BUILD_NUMBER}"
-                
             }
         }
-        */
+        
     }
 }
