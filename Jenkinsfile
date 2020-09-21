@@ -38,7 +38,7 @@ pipeline {
             steps {
                 sshagent(['kubemasternode_id']) {
                     echo "Copying game-app file"
-                    sh "scp -o StrictHostKeyChecking=no game-app.yml ubuntu@172.31.70.60:/home/ubuntu/"
+                    sh "scp -o StrictHostKeyChecking=no game-app.yml ubuntu@3.215.23.226:/home/ubuntu/"
                     
                 }
             }
