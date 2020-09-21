@@ -29,6 +29,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_pwd')]) {
                     sh "docker login -u mattocodes -p ${dockerhub_pwd}"
                     sh "docker push mattocodes/testapp:${BUILD_NUMBER}"
+                    sh "docker tag mattocodes/testapp:${BUILD_NUMBER} mattocodes/testapp:latest"
                     sh "docker push latest"
                 }
             }
