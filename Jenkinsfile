@@ -34,6 +34,15 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sshagent(['kubemasternode_id']) {
+                    echo "Copying game-app file"
+                    sh "ssh -o StrictHostKeyChecking=no game-app.yml ubuntu@172.31.70.60:/home/ubuntu/"
+                    
+                }
+            }
+        }
         
     }
 }
