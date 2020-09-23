@@ -1,0 +1,131 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates a three-node Kubernetes Cluster in US-East-1 Region
+Parameters:
+  KeyName:
+    Description: Provide EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Resources:
+  KubeMasterInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: Kube-Master-Node
+      UserData:
+        Fn::Base64: |
+            #!/bin/bash -xe
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            sudo add-apt-repository \
+              "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+              $(lsb_release -cs) \
+              stable"
+            sudo apt-get update -y
+            sudo apt-get install -y docker-ce=18.06.1~ce~3-0~ubuntu
+            sudo cat > /etc/docker/daemon.json <<EOF
+            {
+              "exec-opts": ["native.cgroupdriver=systemd"],
+              "log-driver": "json-file",
+              "log-opts": {
+                "max-size": "100m"
+              },
+              "storage-driver": "overlay2"
+            }
+            EOF
+            sudo mkdir -p /etc/systemd/system/docker.service.d
+            sudo systemctl daemon-reload
+            sudo systemctl restart docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ubuntu
+            curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            deb https://apt.kubernetes.io/ kubernetes-xenial main
+            EOF
+            sudo apt-get update
+            sudo apt-get install -y kubelet=1.15.7-00 kubeadm=1.15.7-00 kubectl=1.15.7-00
+            sudo apt-mark hold kubelet kubeadm kubectl
+  KubeWorkerInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: Kube-Worker-Node-1
+      UserData:
+        Fn::Base64: |
+            #!/bin/bash -xe
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            sudo add-apt-repository \
+              "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+              $(lsb_release -cs) \
+              stable"
+            sudo apt-get update -y
+            sudo apt-get install -y docker-ce=18.06.1~ce~3-0~ubuntu
+            sudo cat > /etc/docker/daemon.json <<EOF
+            {
+              "exec-opts": ["native.cgroupdriver=systemd"],
+              "log-driver": "json-file",
+              "log-opts": {
+                "max-size": "100m"
+              },
+              "storage-driver": "overlay2"
+            }
+            EOF
+            sudo mkdir -p /etc/systemd/system/docker.service.d
+            sudo systemctl daemon-reload
+            sudo systemctl restart docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ubuntu
+            curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            deb https://apt.kubernetes.io/ kubernetes-xenial main
+            EOF
+            sudo apt-get update
+            sudo apt-get install -y kubelet=1.15.7-00 kubeadm=1.15.7-00 kubectl=1.15.7-00
+            sudo apt-mark hold kubelet kubeadm kubectl
+  KubeWorkerInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Name
+          Value: Kube-Worker-Node-2
+      UserData:
+        Fn::Base64: |
+            #!/bin/bash -xe
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            sudo add-apt-repository \
+              "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+              $(lsb_release -cs) \
+              stable"
+            sudo apt-get update -y
+            sudo apt-get install -y docker-ce=18.06.1~ce~3-0~ubuntu
+            sudo cat > /etc/docker/daemon.json <<EOF
+            {
+              "exec-opts": ["native.cgroupdriver=systemd"],
+              "log-driver": "json-file",
+              "log-opts": {
+                "max-size": "100m"
+              },
+              "storage-driver": "overlay2"
+            }
+            EOF
+            sudo mkdir -p /etc/systemd/system/docker.service.d
+            sudo systemctl daemon-reload
+            sudo systemctl restart docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ubuntu
+            curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            deb https://apt.kubernetes.io/ kubernetes-xenial main
+            EOF
+            sudo apt-get update
+            sudo apt-get install -y kubelet=1.15.7-00 kubeadm=1.15.7-00 kubectl=1.15.7-00
+            sudo apt-mark hold kubelet kubeadm kubectl
+            
