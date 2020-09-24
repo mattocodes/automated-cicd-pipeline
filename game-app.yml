@@ -32,6 +32,6 @@ spec:
     spec:
       containers:
       - name: game-app
-        image: mattocodes/testapp:latest
+        image: mattocodes/game-app:latest
         ports:
         - containerPort: 8080
