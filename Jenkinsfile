@@ -1,49 +1,53 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout Code') {
+        /*
+        stage('Code Checkout') {
             steps {
-                sh 'echo Checking out code from GitHub repo...'
+                //This step is performed by Jenkins
+                git "https://github.com/mattocodes/capstone-jenkins-cicd"
+            }
+         }
+        */
+        
+        stage('Test Code') {
+            steps {
+                echo "Testing code..."
+                sh "tidy -q -e *.html"
             }
         }
-        stage('Test Build Image') {
+        
+        stage('Build Code') {
             steps {
-                sh 'echo Testing build image...'
-                sh 'tidy -q -e *.html'
-            } 
-        }
-        stage('Build Docker Image') {
-            steps {
-                sh 'echo Running build automation...'
-                script {
-                    app = docker.build("mattocodes/game-app")
-                    app.inside {
-                        sh 'echo $(curl localhost:8080)'
-                    }
-                }
+                echo "Building code..."
+                sh "docker build . -t mattocodes/testapp:${BUILD_NUMBER}"
+                sh "docker tag mattocodes/testapp:${BUILD_NUMBER} mattocodes/testapp:latest"
             }
         }
-        stage('Push Docker Image') {
+        stage('Push Build to DockerHub') {
             steps {
-                sh 'echo Pushing image to Docker Hub...'
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_id') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                    }
+                echo "Pushing build to DockerHub..."
+                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_pwd')]) {
+                    sh "docker login -u mattocodes -p ${dockerhub_pwd}"
+                    sh "docker push mattocodes/testapp:${BUILD_NUMBER}"
+                    sh "docker push mattocodes/testapp:latest"
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'echo Deploying to Kubernetes cluster...'
-                input 'Deploy to Production?'
-                milestone(1)
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig_id',
-                    configs: 'game-app-kube.yml',
-                    enableConfigSubstitution: true
-                )
+                sshagent(['kubemasternode_id']) {
+                    echo "Copying game-app file"
+                    sh "scp -o StrictHostKeyChecking=no game-app.yml ubuntu@3.215.23.226:/home/ubuntu/"
+                    script {
+                        try {
+                            sh "ssh ubuntu@3.215.23.226 kubectl apply -f ."
+                        }catch(error) {
+                            sh "ssh ubuntu@3.215.23.226 kubectl create -f ."
+                        }
+                    }  
+                }
             }
         }
     }
