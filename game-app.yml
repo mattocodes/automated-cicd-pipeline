@@ -8,8 +8,9 @@ spec:
     app: game-app
   ports:
   - protocol: TCP
-    port: 8080
-    nodePort: 8080
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer 
 
 ---
 
@@ -31,6 +32,6 @@ spec:
     spec:
       containers:
       - name: game-app
-        image: mattocodes/game-app:${BUILD_NUMBER}
+        image: mattocodes/game-app:latest
         ports:
         - containerPort: 8080
