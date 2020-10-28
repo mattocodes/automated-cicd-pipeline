@@ -1,5 +1,11 @@
 FROM node:current-alpine
+
 WORKDIR /app
-RUN npm install -g http-server
+
+COPY /js/package*.json .
+
+RUN npm install
+
 COPY . . 
-CMD [ "http-server", "-s"]
+
+CMD [ "npm", "start"]
