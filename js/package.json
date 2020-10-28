@@ -1,0 +1,14 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "A Basic Memory Game Web App",
+  "main": "app.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "Matt O",
+  "license": "MIT",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
