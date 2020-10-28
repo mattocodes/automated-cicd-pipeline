@@ -1,7 +1,7 @@
 {
-  "name": "memory-game",
+  "name": "matching-game",
   "version": "1.0.0",
-  "description": "A Basic Memory Game Web App",
+  "description": "A Basic Matching Game Web App",
   "main": "app.js",
   "scripts": {
     "start": "http-server -s"
