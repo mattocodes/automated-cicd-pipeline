@@ -7,7 +7,7 @@ Kubernetes, and AWS CloudFormation.
 
 ## Pipeline Structure
 
-Here is the overview of the the pipeline:
+Here is an overview of the the pipeline:
 ````
           GitHub ===> Jenkins ===> DockerHub ===> Kubernetes Cluster
 ````
@@ -30,6 +30,7 @@ strategy. Meanwhile, the cluster consist of a master node and two woker nodes.
 ## Initial Setup
 
 * Specification
+  - Server: AWS EC2 Instance (t2.micro)
   - Ubuntu OS: 18.04 LTS
   - Docker: 18.06.1-ce
   - Jenkins: 2.249.3 LTS
