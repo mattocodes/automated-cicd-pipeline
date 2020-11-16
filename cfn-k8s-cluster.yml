@@ -1,15 +1,83 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Creates a three-node Kubernetes Cluster in US-East-1 Region
+Description: Creates a three-node Kubernetes Cluster
 Parameters:
   KeyName:
     Description: Provide EC2 KeyPair to enable SSH access into the server
     Type: AWS::EC2::KeyPair::KeyName
+Mappings:
+  myRegionMap:
+    # Ubuntu 18.04 AMIs
+    us-east-1:
+      AMI: ami-085925f297f89fce1
+    us-east-2:
+      AMI: ami-07c1207a9d40bc3bd
+    us-west-1:
+      AMI: ami-0f56279347d2fa43e
+    us-west-2:
+      AMI: ami-003634241a8fcdec0
+    ca-central-1:
+      AMI: ami-0edd51cc29813e254
+    eu-west-1:
+      AMI: ami-0701e7be9b2a77600
+    eu-west-2:
+      AMI: ami-0eb89db7593b5d434
+    eu-central-1:
+      AMI: ami-0e342d72b12109f91
+    ap-northeast-1:
+      AMI: ami-0278fe6949f6b1a06
+    ap-northeast-2:
+      AMI: ami-00edfb46b107f643c
+    ap-southeast-1:
+      AMI: ami-0f7719e8b7ba25c61
+    ap-southeast-2:
+      AMI: ami-04fcc97b5f6edcd89
+    ap-south-1:
+      AMI: ami-0b44050b2d893d5f7
+    sa-east-1:
+      AMI: ami-077d5d3682940b34a
+    cn-north-1:
+      AMI: ami-0071f6f4df15863cc
 Resources:
+  KubeSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Kubernetes Security Group
+      GroupName: Kubernetes-SG
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 6443
+          ToPort: 6443
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 30000
+          ToPort: 32767
+          CidrIp: 0.0.0.0/0
   KubeMasterInstance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      ImageId: !FindInMap
+        - myRegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroupIds:
+        - !Ref KubeSecurityGroup
       KeyName: !Ref KeyName
       Tags:
         - Key: Name
@@ -50,7 +118,12 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      ImageId: !FindInMap
+        - myRegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroupIds:
+        - !Ref KubeSecurityGroup
       KeyName: !Ref KeyName
       Tags:
         - Key: Name
@@ -91,7 +164,12 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-085925f297f89fce1 # Ubuntu 18.04 AMI in us-east-1 region
+      ImageId: !FindInMap
+        - myRegionMap
+        - !Ref AWS::Region
+        - AMI
+      SecurityGroupIds:
+        - !Ref KubeSecurityGroup
       KeyName: !Ref KeyName
       Tags:
         - Key: Name
