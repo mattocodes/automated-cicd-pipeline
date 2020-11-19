@@ -1,11 +1,18 @@
-# Capstone Project - Implementing a Full CI/CD Pipeline
+# Capstone - Automated CI/CD Pipeline
 
-This capstone project involved building a Continuous Integration/Continuous Deployment(CI/CD)
-pipeline for a microservice application. The application is a basic Node.js game app. And, the
-CI/CD pipeline, from source code to production, was implemented using Github, Jenkins, Docker,
-Kubernetes, and AWS CloudFormation. 
+This capstone project is part of Udacity's 
+[Cloud DevOps Engineer Nanodegree](https://www.udacity.com/course/cloud-dev-ops-nanodegree--nd9991) 
+program. Within the project, I implemented an automated Continuous Integration/Continous 
+Deployment(CI/CD) pipeline for a microservice application using a rolling deployment strategy. The 
+application is a Node.js Matching Game web app. Meanwhile, the pipeline was built using GitHub, 
+Jenkins, Docker, DockerHub, Kubernetes, and AWS CloudFormation. 
 
 ## Pipeline Structure
+
+Using Jenkins build automation server, the web app code was checked out from GitHub. The code 
+was built, tested and dockerized. The dockerized code was then pushed to DockerHub which was then
+pulled from DockerHub and deployed to a three-node Kubernetes cluster using a rolling deployment 
+strategy. Meanwhile, the Kubernetes cluster consist of a master node and two woker nodes. 
 
 Here is an overview of the the pipeline:
 ````
@@ -21,16 +28,10 @@ Here is an overview of the the pipeline:
     Kubernetes Cluster: this is a three-node Kubernetes cluster production enviroment.
 ```` 
 
-So using Jenkins build automation server, the web app code was checked out from GitHub. The code 
-was built, tested and dockerized. The build code was then pushed to DockerHub. The code was then
-pulled from DockerHub and deployed to a three-node Kubernetes cluster using a rolling deployment 
-strategy. Meanwhile, the cluster consist of a master node and two woker nodes. 
-
-
 ## Initial Setup
 
 * Specification
-  - Server: AWS EC2 Instance (t2.micro)
+  - Server: AWS EC2 Instance
   - Ubuntu OS: 18.04 LTS
   - Docker: 18.06.1-ce
   - Jenkins: 2.249.3 LTS
